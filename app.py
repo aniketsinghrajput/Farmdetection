@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, send_file, url_for
 from werkzeug.utils import secure_filename
 import os
 import subprocess
+import sys
 
 app = Flask(__name__)
 
@@ -26,8 +27,8 @@ def detect():
     video.save(os.path.join(uploads_dir, secure_filename(video.filename)))
     print(video)
     print('3')
-    subprocess.run("ls",shell=True)
-    subprocess.run(['python3', 'detect.py', '--source', os.path.join(uploads_dir, secure_filename(video.filename))])
+    subprocess.run("dir",shell=True)
+    subprocess.run([sys.executable, 'detect.py', '--source', os.path.join(uploads_dir, secure_filename(video.filename))])
     print('4')
     # return os.path.join(uploads_dir, secure_filename(video.filename))
     obj = secure_filename(video.filename)
@@ -35,6 +36,7 @@ def detect():
 
 @app.route('/return-files', methods=['GET'])
 def return_file():
+    print('5')
     print('return-files')
     obj = request.args.get('obj')
     loc = os.path.join("runs/detect", obj)
